@@ -1,8 +1,10 @@
-import { Text, View, TextInput, Button, Alert } from "react-native"
-import { useForm, Controller } from "react-hook-form"
+import { Text, View, TextInput, Button, Alert } from "react-native";
+import { useForm, Controller } from "react-hook-form";
+import SelectDropdown from "react-native-select-dropdown";
 
+const AlerteType = ["Voirie", "Canada", "Australia", "Ireland"];
 
-export default function ContactForm() {
+export default function App() {
   const {
     control,
     handleSubmit,
@@ -12,9 +14,11 @@ export default function ContactForm() {
       firstName: "",
       lastName: "",
     },
-  })
-  const onSubmit = (data) => console.log(data.firstName)
+  });
 
+  const onSubmit = (data) => {
+    console.log(data);
+  };
 
   return (
     <View>
@@ -25,16 +29,15 @@ export default function ContactForm() {
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
-            placeholder="First name"
+            placeholder="Prenom"
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
           />
         )}
-        name="firstName"
+        name="Prenom"
       />
       {errors.firstName && <Text>This is required.</Text>}
-
 
       <Controller
         control={control}
@@ -43,17 +46,43 @@ export default function ContactForm() {
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
-            placeholder="Last name"
+            placeholder="Nom"
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
           />
         )}
-        name="lastName"
+        name="Nom"
       />
 
+    <Controller
+        control={control}
+        rules={{
+          maxLength: 100,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            placeholder="Nom"
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+        
+            />
+        )}
+        name="Nom"
+    />
+
+      <Controller
+        control={control}
+        rules={{
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <SelectDropdown data={AlerteType} onSelect={onChange} value={value} defaultButtonText="Choississez une option" />
+        )}
+        name="AlertType"
+      />
 
       <Button title="Submit" onPress={handleSubmit(onSubmit)} />
     </View>
-  )
+  );
 }
