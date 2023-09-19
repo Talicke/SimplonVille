@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "SimplonVille",
-    "slug": "SimplonVille",
+    "slug": "simplonville",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -25,6 +25,18 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0c5a0fe8-4961-4bfd-9f67-ac8e0b679cff"
+      }
+    },
+    "owner": "talique",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/0c5a0fe8-4961-4bfd-9f67-ac8e0b679cff"
     }
   }
 }
