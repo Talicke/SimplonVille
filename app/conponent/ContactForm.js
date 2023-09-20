@@ -2,8 +2,8 @@ import { Text, View, TextInput, Button, StyleSheet } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import {useState, useEffect} from 'react';
 import {Marker} from 'react-native-maps';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-import * as Location from 'expo-location';
 import axios from 'axios';
 
 import React from 'react';
@@ -55,24 +55,9 @@ export default function ContactForm() {
     
     
     return (
-        <View>
-            <View  style={styles.dropDown}>
-            <Controller
-                control={control}
-                rules={{
-                }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                <SelectDropdown 
-                    data={AlerteType}
-                    onSelect={onChange} 
-                    value={value}
-                    defaultButtonText="Services"
-                    dropdownStyle = {styles.dropDown}
-                    />
-                )}
-                name="AlertType"
-                />
-            </View>
+        <View style={styles.formContainer}>
+            <Text style={styles.titre}>Signalez !</Text>
+          
             
             <View>
                 <Text>Votre prenom :</Text>
@@ -87,6 +72,7 @@ export default function ContactForm() {
                             onBlur={onBlur}
                             onChangeText={onChange}
                             value={value}
+                            style = {styles.input}
                         />
                         )}
                         name="Prenom"
@@ -108,31 +94,81 @@ export default function ContactForm() {
                         onBlur={onBlur}
                         onChangeText={onChange}
                         value={value}
+                        style = {styles.input}
                     />
                     )}
                     name="Nom"
                 />
                 {errors.Nom && <Text>This is required.</Text>}
             </View>
-            <Controller
-                control={control}
-                rules={{
-                maxLength: 100,
-                }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
-                    placeholder="Despription"
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    value={value}
-                    multiline={true}
-                    numberOfLines={5}
+
+            <View>
+                <Text>Votre E-mail : </Text>
+                <Controller
+                    
+                    control={control}
+                    rules={{
+                    maxLength: 100,
+                    }}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                        placeholder="mail@email.com"
+                        onBlur={onBlur}
+                        onChangeText={onChange}
+                        value={value}
+                        style = {styles.input}
                     />
-                )}
-                name="Description"
-            />
-            {errors.Description && <Text>This is required.</Text>}
-          
+                    )}
+                    name="email"
+                />
+                {errors.Nom && <Text>This is required.</Text>}
+            </View>
+
+            <View  style={styles.dropDown}>
+                <Controller
+                    control={control}
+                    rules={{
+                    }}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                    <SelectDropdown 
+                        data={AlerteType}
+                        onSelect={onChange} 
+                        value={value}
+                        defaultButtonText="Services"
+                        dropdownStyle = {styles.dropDown}
+                        buttonStyle = {styles.dropDownButtonStyle}
+                        renderDropdownIcon={isOpened => {
+                            return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#444'} size={18} />;
+                        }}
+                        />
+                    )}
+                    name="AlertType"
+                />
+            </View>
+
+            <View>
+                <Text>Description :</Text>
+                <Controller
+                    control={control}
+                    rules={{
+                    maxLength: 100,
+                    }}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                        placeholder="J'ai vu une licorne traversée la route et percuter une éléphant rose"
+                        onBlur={onBlur}
+                        onChangeText={onChange}
+                        value={value}
+                        multiline={true}
+                        numberOfLines={10}
+                        style = {[styles.input, {height: 80}]}
+                        />
+                    )}
+                    name="Description"
+                />
+                {errors.Description && <Text>This is required.</Text>}
+            </View>
+            
             <View>
                 <MapView 
                 style={styles.map}
@@ -146,7 +182,7 @@ export default function ContactForm() {
                 </MapView>
             </View>
 
-            <Button title="Submit" onPress={handleSubmit(onSubmit)}/>
+            <Button title="Submit" style={styles.submitButton} onPress={handleSubmit(onSubmit)}/>
             
             <View>
                 <Text>{pinedAdresse}</Text>
@@ -156,8 +192,40 @@ export default function ContactForm() {
 }
 
 const styles = StyleSheet.create({
+    formContainer:{
+        flex: 1,
+        alignContent: "center",
+        justifyContent: "center",
+        padding: 50,
+    }, 
     map: {
         width: '100%',
-        height: '60%',
+        height: '50%',
     },
+    titre: {
+        fontSize: 20,
+        fontWeight: "bold",
+        textAlign: "center",
+    },
+    dropDownButtonStyle: {
+        backgroundColor: "#ffffff80",
+        borderRadius: 10,
+        height: 30,
+        width: "60%",
+        borderWidth: 1,
+        borderColor: "purple",
+    },
+    input:{
+        backgroundColor: "#ffffff80",
+        borderRadius: 10,
+        height: 30,
+        marginTop: 5,
+        marginBottom: 10,
+        padding: 4,
+        borderWidth: 1,
+        borderColor: "purple",
+    },
+    submitButton:{
+        marginTop: 10,
+    }
 });
