@@ -78,7 +78,7 @@ const ApiKeyGeoApiFy = "27899a6a835243f6bcff91ddf2e1dd47";
                 )}
                 name="Prenom"
             />
-            {errors.firstName && <Text>This is required.</Text>}
+            {errors.AlerteType && <Text>This is required.</Text>}
 
             <Controller
                 control={control}
@@ -95,6 +95,7 @@ const ApiKeyGeoApiFy = "27899a6a835243f6bcff91ddf2e1dd47";
                 )}
                 name="Nom"
             />
+            {errors.Nom && <Text>This is required.</Text>}
 
             <Controller
                 control={control}
@@ -113,29 +114,20 @@ const ApiKeyGeoApiFy = "27899a6a835243f6bcff91ddf2e1dd47";
                 )}
                 name="Description"
             />
-
-            <Controller
-                control={control}
-                rules={{
-                maxLength: 100,
-                }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                    <View>
-                        <MapView 
-                        data={mapRegion} onDragEnd={onChange} value={value}
-                        style={styles.map}
-                        initialRegion={mapRegion}>
-                            <Marker 
-                                draggable 
-                                coordinate={mapRegion} 
-                                title="Marker"
-                                onDragEnd={(e) => setMapRegion(e.nativeEvent.coordinate)}
-                            />
-                        </MapView>
-                    </View>
-            )}
-            name="map"
-        />
+            {errors.Description && <Text>This is required.</Text>}
+          
+            <View>
+                <MapView 
+                style={styles.map}
+                initialRegion={mapRegion}>
+                    <Marker 
+                        draggable 
+                        coordinate={mapRegion} 
+                        title="Marker"
+                        onDragEnd={(e) => setMapRegion(e.nativeEvent.coordinate)}
+                    />
+                </MapView>
+            </View>
 
             <Button title="Submit" onPress={handleSubmit(onSubmit)}/>
             
