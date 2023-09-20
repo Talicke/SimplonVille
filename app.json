@@ -6,6 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "scheme": "your-app-scheme",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -24,6 +25,7 @@
       }
     },
     "web": {
+      "bundler": "metro",
       "favicon": "./assets/favicon.png"
     },
     "extra": {
@@ -37,6 +39,9 @@
     },
     "updates": {
       "url": "https://u.expo.dev/0c5a0fe8-4961-4bfd-9f67-ac8e0b679cff"
-    }
+    },
+    "plugins": [
+      "expo-router"
+    ]
   }
 }
