@@ -1,7 +1,9 @@
 import { Text, View, TextInput, Button, StyleSheet } from "react-native";
 import { useForm, Controller } from "react-hook-form";
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {Marker} from 'react-native-maps';
+
+import * as Location from 'expo-location';
 import axios from 'axios';
 
 import React from 'react';
@@ -16,39 +18,39 @@ const ApiKeyGeoApiFy = "27899a6a835243f6bcff91ddf2e1dd47";
 
     
 
-    
-    export default function ContactForm() {
-        const[pinedAdresse, setPinedAdresse] = useState(null);
-        const[mapRegion, setMapRegion] = useState({
-            latitude: 43.475576,
-            longitude: 0.912082,
-            latitudeDelta: 0.0200,
-            longitudeDelta: 0.0200,
-        });
-        
-        
-        const {
-            control,
-            handleSubmit,
-            formState: { errors },
-        } = useForm({
+
+export default function ContactForm() {
+    const[mapRegion, setMapRegion] = useState({
+        latitude:43.469955405214364, 
+        longitude: 0.9255059046242529,
+        latitudeDelta: 0.0200,
+        longitudeDelta: 0.0200,
     });
 
-
-   
-    const onSubmit = (data) =>
+    const[pinedAdresse, setPinedAdresse] = useState(null);
+    
+    
+    const {
+        control,
+        handleSubmit,
+        formState: { errors },
+    } = useForm({
+    });
+    
+    const getAdress = () => {
         axios.get(`${baseUrl}?lat=${mapRegion.latitude}&lon=${mapRegion.longitude}&format=json&apiKey=${ApiKeyGeoApiFy}`)
         .then(function (response) {
             setPinedAdresse(response.data.results[0].formatted);
-            console.log(data);
-            console.log(pinedAdresse)
         })
         .catch(function (error) {
             console.log(error);
         })
-        .then(function () {
-            // always executed
-        });  
+    }
+
+    const onSubmit = () => {
+        getAdress();
+    }
+    
     
     
     
@@ -140,7 +142,7 @@ const ApiKeyGeoApiFy = "27899a6a835243f6bcff91ddf2e1dd47";
 
 const styles = StyleSheet.create({
     map: {
-      width: '100%',
-      height: '60%',
+        width: '100%',
+        height: '60%',
     },
-  });
+});
