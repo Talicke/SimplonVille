@@ -1,4 +1,4 @@
-import { Text, View, TextInput, Button, StyleSheet } from "react-native";
+import { Text, View, TextInput, Button, StyleSheet, Image } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { ScrollView } from "react-native";
 import {useState, useEffect} from 'react';
@@ -19,7 +19,7 @@ const AlerteType = ["Voirie", "stationnement", "travaux"];
 
 const baseUrl = 'https://api.geoapify.com/v1/geocode/reverse';
 const ApiKeyGeoApiFy = "27899a6a835243f6bcff91ddf2e1dd47";
-
+const locNotFound = require('../../assets/LocNotFound.gif');
     
 
 
@@ -254,8 +254,8 @@ export default function ContactForm() {
                 </MapView>
             </View>
             ) : 
-            (<View>
-
+            (<View style={styles.containerPinedAdresse}>
+                <Image source={locNotFound}/>
             </View>)}
             <Button title="Envoyer" style={styles.primaryButton} onPress={handleSubmit(onSubmit)}/>
             
