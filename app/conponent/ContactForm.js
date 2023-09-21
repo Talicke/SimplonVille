@@ -1,8 +1,10 @@
 import { Text, View, TextInput, Button, StyleSheet } from "react-native";
 import { useForm, Controller } from "react-hook-form";
+import { ScrollView } from "react-native";
 import {useState, useEffect} from 'react';
 import {Marker} from 'react-native-maps';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import * as Location from 'expo-location'
 
 import axios from 'axios';
 
@@ -23,9 +25,13 @@ export default function ContactForm() {
     const[mapRegion, setMapRegion] = useState({
         latitude:43.469955405214364, 
         longitude: 0.9255059046242529,
+    });
+    const[pinnedLoc, setPinnedLoc] = useState({
+        latitude:43.469955405214364, 
+        longitude: 0.9255059046242529,
         latitudeDelta: 0.0200,
         longitudeDelta: 0.0200,
-    });
+    })
 
     const[pinedAdresse, setPinedAdresse] = useState(null);
     
@@ -38,7 +44,7 @@ export default function ContactForm() {
     });
     
     const getAdress = () => {
-        axios.get(`${baseUrl}?lat=${mapRegion.latitude}&lon=${mapRegion.longitude}&format=json&apiKey=${ApiKeyGeoApiFy}`)
+        axios.get(`${baseUrl}?lat=${pinnedLoc.latitude}&lon=${pinnedLoc.longitude}&format=json&apiKey=${ApiKeyGeoApiFy}`)
         .then(function (response) {
             setPinedAdresse(response.data.results[0].formatted);
         })
@@ -48,14 +54,14 @@ export default function ContactForm() {
     }
 
     const onSubmit = () => {
-        getAdress();
+      
     }
     
     
     
     
     return (
-        <View style={styles.formContainer}>
+        <ScrollView>
             <Text style={styles.titre}>Signalez !</Text>
           
             
@@ -176,8 +182,10 @@ export default function ContactForm() {
                     <Marker 
                         draggable 
                         coordinate={mapRegion} 
-                        title="Marker"
-                        onDragEnd={(e) => setMapRegion(e.nativeEvent.coordinate)}
+                        title={pinedAdresse}
+                        onDragEnd={(e) => {setPinnedLoc(e.nativeEvent.coordinate)
+                            getAdress();
+                        }}
                     />
                 </MapView>
             </View>
@@ -187,7 +195,7 @@ export default function ContactForm() {
             <View>
                 <Text>{pinedAdresse}</Text>
             </View>
-        </View>
+        </ScrollView>
     );
 }
 
@@ -199,8 +207,8 @@ const styles = StyleSheet.create({
         padding: 50,
     }, 
     map: {
-        width: '100%',
-        height: '50%',
+        width: 300,
+        height: 300,
     },
     titre: {
         fontSize: 20,
